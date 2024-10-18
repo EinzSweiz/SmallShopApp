@@ -8,13 +8,12 @@ from django.urls import reverse
 def rand_slug():
     return ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(3))
 
-
 class Category(models.Model):
     name = models.CharField(max_length=250)
     parent = models.ForeignKey(
         'self', on_delete=models.CASCADE, related_name='children', blank=True, null=True
     )
-    slug = models.SlugField(max_length=250, unique=True, null=False, editable=True, verbose_name='URL'),
+    slug = models.SlugField(max_length=250, unique=True, null=False, editable=True, verbose_name='URL')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -65,8 +64,7 @@ class ProductManager(models.Manager):
         return super().get_queryset().filter(available=True)
 
 class ProductProxy(Product):
-    
-    
+    objects = ProductManager()
 
     class Meta:
         proxy = True
