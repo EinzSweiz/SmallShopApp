@@ -3,7 +3,7 @@ from .models import ProductProxy, Category
 
 def product_list_view(request):
     qs = ProductProxy.objects.all()
-    return render(request, 'shop/products.html', {'qs': qs})
+    return render(request, 'shop/products.html', {'products': qs})
 
 
 def product_detail_view(request, slug):
