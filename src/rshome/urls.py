@@ -19,11 +19,14 @@ from django.urls import path, include
 from shop import urls as shop_urls
 from django.conf import settings
 from django.conf.urls.static import static
+from cart import urls as cart_urls
+
 
 DEBUG = settings.DEBUG
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('shop/', include(shop_urls)),
+    path('cart/', include(cart_urls)),
 ]
 
 if DEBUG:

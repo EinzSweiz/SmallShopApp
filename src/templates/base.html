@@ -52,6 +52,36 @@
     <title>BigCorp</title>
 
     <style>
+
+      .badge {
+        padding-left: 9px;
+        padding-right: 9px;
+        -webkit-border-radius: 9px;
+        -moz-border-radius: 9px;
+        border-radius: 9px;
+        }
+        
+      .bg-green {
+          background-color: green;
+          color: white; /* Optional: to ensure the text is readable */
+      }
+        .label-warning[href],
+        .badge-warning[href] {
+        background-color: #c67605;
+        }
+        #lblCartCount {
+          font-size: 12px; /* Adjust font size */
+          background: green; /* Ensure the background is green */
+          color: #fff; /* Text color */
+          padding: 0 5px; /* Adjust padding */
+          vertical-align: top;
+          margin-left: -2px;
+          position: absolute; /* Position it absolutely */
+          top: 0; /* Adjust top position */
+          right: 0; /* Adjust right position */
+          transform: translate(50%, -50%); /* Fine-tune position */
+      }
+
       a {
         font-size: 14px;
         font-weight: 700;
@@ -124,7 +154,7 @@
       class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm "
     >
       <div class="container">
-        <a class="navbar-brand" href="#"
+        <a class="navbar-brand" href="{% url 'product_list' %}"
           ><i class="fa-solid fa-shop me-2"></i>
           <strong>BigCorp SHOP</strong></a
         >
@@ -223,10 +253,19 @@
             {% endif %} {% endfor %}
           </ul>
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link mx-2 text-uppercase" href="#"
-                > <i class="fa fa-shopping-cart" aria-hidden="true"> </i> Cart</a
-              >
+            <li class="nav-item" style="position: relative;">
+              <a class="nav-link mx-2 text-uppercase" href="{% url 'cart_view' %}">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
+                <span id='lblCartCount' class='badge bg-green'>
+                  {% with cart_qty=cart|length%}
+                  {% if cart_qty >= 1 %}
+                  {{ cart_qty}}
+                  {% else %}
+                  0
+                  {% endif %}
+                  {% endwith %}
+                </span>
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link mx-2 text-uppercase" href="#"
