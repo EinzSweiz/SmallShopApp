@@ -21,6 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from cart import urls as cart_urls
 from account import urls as account_urls
+from payment import urls as payment_urls
 from django_email_verification import urls as email_urls
 
 
@@ -31,6 +32,7 @@ urlpatterns = [
     path('cart/', include(cart_urls)),
     path('account/', include(account_urls)),
     path('email/', include(email_urls)),
+    path('payment/', include(payment_urls)),
 ]
 
 if DEBUG:

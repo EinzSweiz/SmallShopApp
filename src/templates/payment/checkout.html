@@ -1,0 +1,103 @@
+
+{% include "base.html" %}
+
+
+{% load static %}
+
+
+{% block content %}
+
+<style>
+    
+    body 
+    {
+        
+        background-color: gray;
+    
+    }
+</style>
+    <body>
+        <br>
+        <div class="container bg-white shadow-md p-5" style="width:500px; border-radius:20px;">
+            <form id="form" action="{% url 'payment_complete' %}" method="post">
+                {% csrf_token %}
+                <div>
+                    <h3> <i class="fa fa-chevron-circle-right" aria-hidden="true"></i> &nbsp; Complete your order </h3>
+                    <p> Please enter in the relevant information below. </p>
+                    <hr>
+                    <br>
+                    <div class="form-field">
+                        <input class="form-control validate" id="name" type="text" placeholder="Full name*" autocomplete="off" value="{{shipping_address.full_name}}" required>
+                    </div>
+                    <br>
+                    <div class="form-field">
+                        <input class="form-control validate" id="email" type="email" placeholder="Email address*" autocomplete="off" value="{{shipping_address.email}}" required>
+                    </div>             
+                    <br>
+                  <div class="form-field">
+                        <input class="form-control validate" id="address1" type="text" placeholder="Street address*" autocomplete="off" value="{{shipping_address.street_address}}" required>
+                    </div>
+                    <br>
+                    <div class="form-field">
+                        <input class="form-control validate" id="address2" type="text" placeholder="Apartment address" autocomplete="off" value="{{shipping_address.apartment_address}}" required>
+                    </div>
+                    <br>
+                    <div class="form-field">
+                        <input class="form-control validate" id="city" type="text" placeholder="City*" autocomplete="off" value="{{shipping_address.city}}">
+                    </div>
+                    <br>
+                    <div class="form-field">
+                        <input class="form-control" id="state" type="text" placeholder="Country" autocomplete="off" value="{{shipping_address.country}}">
+                    </div>
+                    <br>
+                    <div class="form-field">
+                        <input class="form-control" id="zipcode" type="text" placeholder="Zip code (Optional)" autocomplete="off" value="{{shipping_address.zip_code}}">
+                    </div>            
+                </div>
+                <br>
+                <div class="d-flex justify-content-center my-3">
+                    <button id="complete-order-stripe" type="submit" class="btn btn-primary mx-2 d-flex align-items-center justify-content-center" name="stripe-payment" value="stripe-payment">
+                        <i class="fas fa-credit-card me-2"></i> Pay with Stripe
+                    </button>
+                    
+                    <button id="complete-order-yookassa" type="submit" class="btn btn-secondary mx-2 d-flex align-items-center justify-content-center" name="yookassa-payment" value="yookassa-payment">
+                        <i class="fas fa-wallet me-2"></i> Pay with YooKassa
+                    </button>
+                </div>
+            <br>                
+            </form>
+        </div>        
+        <br>
+    </body>
+    <script>
+        $(document).on('submit', function(e){
+          e.preventDefault();
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'payment_complete' %}",
+            data:{
+                name: $('#name').val(),
+                email: $('#email').val(),
+                address1: $('#address1').val(),
+                address2: $('#address2').val(),
+                city: $('#city').val(),
+                state: $('#state').val(),
+                zipcode: $('#zipcode').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'payment'
+            },
+                success: function(response) {
+                    // Handle success response
+                    window.location.href = "{% url 'payment_success' %}"
+                    // Optionally, redirect to another page
+                    // window.location.href = '/success-page/';
+                },
+                error: function(error) {
+                    // Handle error response
+                    window.location.href = "{% url 'payment_fail' %}"
+    
+                }
+          })
+        })
+    </script>
+{% endblock %}

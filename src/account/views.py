@@ -88,6 +88,7 @@ def user_delete_view(request, id=None):
             try:
                 user.delete()
                 messages.success(request, 'User successfully deleted.')
+                return redirect('product_list')
             except User.DoesNotExist:
                 raise ValueError('User does not exist')
             except DatabaseError:
