@@ -1,0 +1,36 @@
+{%  extends "base.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+
+    <br>
+    <div class="container bg-white shadow-md p-3">
+        <h4>Welcome, {{ user.username }}!</h4>
+
+        <hr>
+
+        <h6>Personal information</h6>
+
+        <a href="{% url 'user_logout' %}">
+        <button class="btn btn-primary">
+            Logout
+            </button>
+        </a>
+
+        <a href="{% url 'profile_management' %}">
+            <button class="btn btn-success">
+                Profile-management
+                </button>
+            </a>
+        
+            <a href="{% url 'user_delete' id=user.id %}">
+                <button class="btn btn-warning">
+                    Delete Account
+                    </button>
+                </a>
+
+    </div>
+{% endblock %}

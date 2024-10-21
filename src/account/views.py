@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django_email_verification import send_email
-from .forms import UserCreateForm, UserLoginForm
+from .forms import UserCreateForm, UserLoginForm, UpdateProfileForm
+from django.core.exceptions import PermissionDenied
+from django.db import DatabaseError
 
 User = get_user_model()
 
@@ -59,3 +61,37 @@ def user_login_view(request):
 def user_logout_view(request):
     logout(request)
     return redirect('account_login')
+
+@login_required(login_url='account_login')
+def profile_view(request):
+    return render(request, 'account/profile.html', {})
+
+@login_required(login_url='account_login')
+def profile_management_view(request):
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully.')
+            return redirect('profile')
+        else:
+            messages.error(request, 'There was an error updating your profile.')
+    else:
+        form = UpdateProfileForm(instance=request.user)
+    
+    return render(request, 'account/profile_management.html', {'form': form})
+@login_required(login_url='account_login')
+def user_delete_view(request, id=None):
+    user = get_object_or_404(User, id=id)
+    if request.method == 'POST':
+        if request.user == user or request.user.has_perm('auth.delete_user'):
+            try:
+                user.delete()
+                messages.success(request, 'User successfully deleted.')
+            except User.DoesNotExist:
+                raise ValueError('User does not exist')
+            except DatabaseError:
+                raise ValueError('Database error occurred')
+        else:
+            raise PermissionDenied('You do not have permission to delete this user.')
+    return render(request, 'account/account_delete.html', {'user': user})
