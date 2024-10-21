@@ -2,3 +2,6 @@ django
 python-decouple
 pillow
 django-mathfilters
+django-crispy-forms
+crispy-bootstrap5
+django-email-verification

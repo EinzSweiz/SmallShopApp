@@ -24,23 +24,28 @@ class Cart:
         # if update_quantity:
         self.cart[product_id_str]['qty'] = quantity
         # else:
-        #     self.cart[product_id_str]['qyt'] += quantity
+        #     self.cart[product_id_str]['qty'] += quantity
         
         self.save()
     
     def __len__(self):
         return sum(item['qty'] for item in self.cart.values())
 
-    # def remove(self, product_id):
-    #     """
-    #     Remove a product from the cart.
-        
-    #     :param product_id: ID of the product to remove.
-    #     """
-    #     product_id_str = str(product_id)
-    #     if product_id_str in self.cart:
-    #         del self.cart[product_id_str]
-    #         self.save()
+    def remove(self, product_id):
+        """
+        Remove a product from the cart.
+        :param product_id: ID of the product to remove.
+        """
+        product_id_str = str(product_id)
+        if product_id_str in self.cart:
+            del self.cart[product_id_str]
+            self.save()
+
+    def update(self, product_id, quantity):
+        product_id_str = str(product_id)
+        if product_id_str in self.cart:
+            self.cart[product_id_str]['qty'] = quantity
+            self.save()
 
     def save(self):
         """

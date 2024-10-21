@@ -42,12 +42,40 @@ def cart_add_view(request):
 
 
 def cart_delete_view(request):
-    pass
+    if request.POST.get('action') == 'post':
+        try:
+            product_id = int(request.POST.get('product_id'))
+        except (TypeError, ValueError):
+            return HttpResponseBadRequest("Invalid product ID")
+        cart = Cart(request)
+        cart.remove(product_id=product_id)
+        cart_qty = cart.__len__()
+        total_price = cart.get_total_price()
+        response = JsonResponse({'qty':cart_qty, 'total':total_price})
+        return response
+ 
 
 
 def cart_update_view(request):
-    pass
+    cart = Cart(request)
 
+    if request.POST.get('action') == 'post':
+        try:
+            product_id = int(request.POST.get('product_id'))
+            product_qty = int(request.POST.get('product_qty'))
+        except (TypeError, ValueError) as e:
+            print(f"Error converting POST data: {e}")
+            return HttpResponseBadRequest("Invalid product ID or quantity")
+        
+        cart.update(product_id=product_id, quantity=product_qty)
+            
+        cart_qty = cart.__len__()
+        total_price = cart.get_total_price()
+        
+        response = JsonResponse({'qty': cart_qty, 'total': str(total_price)})
+        return response
+    else:
+        return HttpResponseBadRequest("Invalid request method")
 
 
 

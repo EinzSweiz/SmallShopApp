@@ -53,6 +53,11 @@
 
     <style>
 
+      .form-layout {
+        border-radius: 20px;
+        width: 500px;
+      }
+
       .badge {
         padding-left: 9px;
         padding-right: 9px;
@@ -277,6 +282,8 @@
         </div>
       </div>
     </nav>
+    {% include 'snippets/messages.html' %}
+
 
     {% block content %}
     {% endblock %}
