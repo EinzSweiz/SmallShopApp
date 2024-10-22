@@ -23,7 +23,7 @@ from cart import urls as cart_urls
 from account import urls as account_urls
 from payment import urls as payment_urls
 from django_email_verification import urls as email_urls
-
+from . import views
 
 DEBUG = settings.DEBUG
 urlpatterns = [
@@ -33,6 +33,7 @@ urlpatterns = [
     path('account/', include(account_urls)),
     path('email/', include(email_urls)),
     path('payment/', include(payment_urls)),
+    path('', views.index, name='home'),
 ]
 
 if DEBUG:

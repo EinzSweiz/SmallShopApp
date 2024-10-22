@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap5",
     'django_email_verification',
+    'django_google_fonts',
     #my apps
     'shop',
     'cart',
@@ -94,8 +95,13 @@ USE_I18N = True
 USE_TZ = True
 
 #Static files
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    # BASE_DIR / 'rshome' / 'static',
+    # BASE_DIR / 'shop' / 'static',
+]
 #Media Files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -151,3 +157,18 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 # DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 ADMIN_USER_EMAIL = config('ADMIN_USER_EMAIL')
+
+
+#STRIPE
+STRIPE_PUBLISH_KEY = config('STRIPE_PUBLISH_KEY', cast=str, default=None)
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', cast=str, default=None)
+
+#Yookassa
+YOOKASSA_SECRET_KEY=config('YOOKASSA_SECRET_KEY', cast=str, default=None)
+YOOKASSA_SHOP_ID=config('YOOKASSA_SHOP_ID', cast=int, default=None)
+
+
+#GOOGLE FONTS
+GOOGLE_FONTS = ["Montserrat:wght@300,400", 'Roboto']
+
+GOOGLE_FONTS_DIR = BASE_DIR / "static"

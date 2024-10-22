@@ -5,3 +5,6 @@ django-mathfilters
 django-crispy-forms
 crispy-bootstrap5
 django-email-verification
+stripe
+yookassa
+django-google-fonts

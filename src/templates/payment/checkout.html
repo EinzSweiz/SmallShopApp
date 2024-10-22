@@ -69,35 +69,4 @@
         </div>        
         <br>
     </body>
-    <script>
-        $(document).on('submit', function(e){
-          e.preventDefault();
-          $.ajax({
-            type: 'POST',
-            url: "{% url 'payment_complete' %}",
-            data:{
-                name: $('#name').val(),
-                email: $('#email').val(),
-                address1: $('#address1').val(),
-                address2: $('#address2').val(),
-                city: $('#city').val(),
-                state: $('#state').val(),
-                zipcode: $('#zipcode').val(),
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                action: 'payment'
-            },
-                success: function(response) {
-                    // Handle success response
-                    window.location.href = "{% url 'payment_success' %}"
-                    // Optionally, redirect to another page
-                    // window.location.href = '/success-page/';
-                },
-                error: function(error) {
-                    // Handle error response
-                    window.location.href = "{% url 'payment_fail' %}"
-    
-                }
-          })
-        })
-    </script>
 {% endblock %}

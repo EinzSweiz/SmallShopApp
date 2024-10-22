@@ -131,7 +131,10 @@
             },
             success: function(response) {
                 document.getElementById('lblCartCount').innerHTML=response.qty
-                console.log(response)
+                const add_button = document.getElementById('add-button')
+                add_button.disabled = true
+                add_button.innerText = 'Added to cart'
+                add_button.className = 'btn btn-success btn-sm'
             },
             error: function(xhr, status, error) {
                 alert('An error occurred while adding the product to the cart.');
