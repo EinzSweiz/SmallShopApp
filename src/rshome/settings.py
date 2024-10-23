@@ -99,7 +99,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    # BASE_DIR / 'rshome' / 'static',
+    BASE_DIR / 'rshome' / 'static',
     # BASE_DIR / 'shop' / 'static',
 ]
 #Media Files
@@ -162,6 +162,10 @@ ADMIN_USER_EMAIL = config('ADMIN_USER_EMAIL')
 #STRIPE
 STRIPE_PUBLISH_KEY = config('STRIPE_PUBLISH_KEY', cast=str, default=None)
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', cast=str, default=None)
+STRIPE_API_VERSION = config('STRIPE_API_VERSION')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', cast=str, default=None)
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_AGE = 60 * 60 * 2
 
 #Yookassa
 YOOKASSA_SECRET_KEY=config('YOOKASSA_SECRET_KEY', cast=str, default=None)
