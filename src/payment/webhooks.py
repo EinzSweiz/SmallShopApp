@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Order
 from yookassa import Webhook, Configuration
 import json
+from .tasks import send_order_confirmation
 import stripe
 
 
@@ -40,6 +41,8 @@ def stripe_webhook(request):
                     # Get the order associated with this session
                     order_id = session.get('client_reference_id')
                     order = Order.objects.get(id=order_id)
+                    send_order_confirmation.delay(order_id)
+
                     
                     # Update the order as paid
                     order.paid = True
@@ -79,6 +82,7 @@ def yookassa_webhook(request):
                 try:
                     order = Order.objects.get(id=order_id)
                     order.paid = True
+                
                     order.save()
                 except Order.DoesNotExist:
                     return HttpResponse(status=404)

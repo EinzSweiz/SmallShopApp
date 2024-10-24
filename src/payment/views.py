@@ -3,13 +3,18 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from .forms import ShippingAddressForm
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from cart.cart import Cart
 from .models import Order, OrderItem, ShippingAddress
 from django.contrib import messages
 import stripe
 from yookassa import Configuration, Payment
 from django.conf import settings
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import Http404
+from django.template.loader import render_to_string
+from weasyprint import HTML, CSS
+from django.templatetags.static import static
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -30,7 +35,7 @@ def payment_shipping_view(request):
             shipping_address.user = request.user
             form.save()
             messages.success(request, 'Profile updated successfully.')
-            return redirect(reverse('payment_shipping'))
+            return redirect(reverse('payment_checkout'))
         else:
             messages.error(request, 'There was an error updating your profile.')
     return render(request, 'payment/shipping.html', {'form': form})
@@ -149,3 +154,18 @@ def payment_success_view(request):
 
 def payment_fail_view(request):
     return render(request, 'payment/payment_fail.html', {})
+
+
+@staff_member_required
+def admin_order_pdf(request, order_id):
+    try:
+        order = Order.objects.select_related('user', 'shipping_address').get(id=order_id)
+    except Order.DoesNotExist:
+        raise Http404('Order was not found')
+    html = render_to_string('payment/pdf/pdf_invoice.html', {'order':order})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=order_{order.id}.pdf'
+    css_path = 'payment/static/css/paid.css'
+    css = CSS(css_path)
+    HTML(string=html).write_pdf(response, stylesheets=[css])
+    return response

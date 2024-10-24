@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     'django_email_verification',
     'django_google_fonts',
+    'django_celery_beat',
+    "django_celery_results",
     #my apps
     'shop',
     'cart',
@@ -155,7 +157,7 @@ EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-# DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 ADMIN_USER_EMAIL = config('ADMIN_USER_EMAIL')
 
 
@@ -176,3 +178,18 @@ YOOKASSA_SHOP_ID=config('YOOKASSA_SHOP_ID', cast=int, default=None)
 GOOGLE_FONTS = ["Montserrat:wght@300,400", 'Roboto']
 
 GOOGLE_FONTS_DIR = BASE_DIR / "static"
+
+
+#Celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_EXTENDED = True
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
+
+# CELERY_BEAT_SCHEDULE = {
+#     "sample_task": {
+#         "task": "core.tasks.sample_task",
+#         "schedule": crontab(minute="*/1"),
+#     },
+# }

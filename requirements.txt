@@ -8,3 +8,10 @@ django-email-verification
 stripe
 yookassa
 django-google-fonts
+celery
+redis
+django-celery-beat
+django-celery
+django-celery-results
+flower
+WeasyPrint

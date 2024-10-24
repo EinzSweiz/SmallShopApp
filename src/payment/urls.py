@@ -10,5 +10,6 @@ urlpatterns = [
     path('payment-fail/', views.payment_fail_view, name='payment_fail'),
     path('webhook-stripe/', stripe_webhook, name='webhook-stripe'),
     path('webhook-yookassa/', yookassa_webhook, name='webhook-yookassa'),
+    path('order/<int:order_id>/pdf/', views.admin_order_pdf, name='admin_order_pdf'),
 
 ]
