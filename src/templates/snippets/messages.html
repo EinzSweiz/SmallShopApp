@@ -1,5 +1,5 @@
 {% if messages %}
-<ul class="messages list-unstyled">
+<ul id='messages' class="message list-unstyled">
     {% for message in messages %}
         <li class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' or message.tags == 'danger' %}alert-danger{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'info' %}alert-info{% endif %}">
             {{ message|safe }}

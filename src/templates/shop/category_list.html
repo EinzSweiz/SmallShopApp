@@ -32,7 +32,9 @@
                 <a class="text-info text-decoration-none" href="{{product.get_absolute_url}}"> {{product.title|capfirst}} </a>
               </p>
               <div class="d-flex justify-content-between align-items-center">
-                <h5> $ {{ product.get_total_price }} </h5>
+                <div class="d-flex justify-content-between align-items-center badge bg-success text-wrap" style="width: 6rem;">
+                  <h5>$ {{product.price}}</h5>
+                </div>
               </div>
             </div>
           </div>

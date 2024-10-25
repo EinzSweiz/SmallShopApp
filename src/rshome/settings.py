@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-*f0@1d7kud%v*$9e__xw9x5-j9y5$71s4=d(=-#b-)8t^876ve
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
@@ -26,11 +26,14 @@ INSTALLED_APPS = [
     'django_google_fonts',
     'django_celery_beat',
     "django_celery_results",
+    "django_htmx",
+    'sorl.thumbnail',
     #my apps
     'shop',
     'cart',
     'account',
     'payment',
+    'reccomend',
 ]
 
 MIDDLEWARE = [
@@ -41,6 +44,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = 'rshome.urls'
@@ -102,6 +106,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
     BASE_DIR / 'rshome' / 'static',
+    BASE_DIR / 'shop' / 'static',
     # BASE_DIR / 'shop' / 'static',
 ]
 #Media Files

@@ -15,3 +15,6 @@ django-celery
 django-celery-results
 flower
 WeasyPrint
+faker
+django-htmx
+sorl-thumbnail
