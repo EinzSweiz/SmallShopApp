@@ -18,3 +18,8 @@ WeasyPrint
 faker
 django-htmx
 sorl-thumbnail
+djangorestframework
+djoser
+djangorestframework_simplejwt
+drf_yasg
+psycopg2-binary

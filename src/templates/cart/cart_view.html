@@ -36,8 +36,19 @@
               <div class="col-6">{{ product.title }}</div>
 
               <div class="col-6 text-end">
-                <span class="h6 fw-bold">${{ product.price|mul:item.qty }}</span>
-              </div>
+                {% if product.get_discount_price %}
+                    <span class="h6 fw-bold text-decoration-line-through text-danger">
+                        ${{ product.price|mul:item.qty }}
+                    </span>
+                    <span class="h5 fw-bold ms-2 text-success">
+                        ${{ product.get_discount_price|mul:item.qty }}
+                    </span>
+                {% else %}
+                    <span class="h5 fw-bold">
+                        ${{ product.price|mul:item.qty }}
+                    </span>
+                {% endif %}
+            </div>
             </div>
           </div>
 
@@ -98,11 +109,21 @@
     {% endfor %}
     <div class="col-12 text-end">
       <div class="h6 fw-bold">
-        Total: ${{ item.get_total_price }}
-        <div id="total" class="d-inline-flex">
-          {{ cart.get_total_price }}
+        {% if cart.has_discount %}
+        <div>
+            <span class="text-decoration-line-through text-danger">
+                Regular Total: ${{ cart.get_total_price }}
+            </span>
+            <span class="text-success ms-2">
+                Discounted Total: ${{ cart.get_discounted_total_price }}
+            </span>
         </div>
-      </div>
+        {% else %}
+        <div>
+            Total: ${{ cart.get_total_price }}
+        </div>
+        {% endif %}
+    </div>
       <button type="button" class="btn btn-success btn-md text-bg-light mt-4">
         <a class="nav-link text-decoration-none" href="{% url 'payment_checkout' %}">Checkout</a>
       </button>

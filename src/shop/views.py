@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import ProductProxy, Category
 from django.views.generic import ListView
+from recommend.models import Review
 # def product_list_view(request):
 #     qs = ProductProxy.objects.all()
 #     return render(request, 'shop/products.html', {'products': qs})
@@ -17,7 +18,12 @@ class ProductListView(ListView):
 
 def product_detail_view(request, slug):
     product = get_object_or_404(ProductProxy, slug=slug)
-    return render(request, 'shop/product_detail.html', {'product': product})
+    reviews = Review.objects.filter(product=product).select_related('created_by')
+    context = {
+        'product': product,
+        'reviews': reviews,
+    }
+    return render(request, 'shop/product_detail.html', context=context)
 
 
 def categories_list(request, slug):

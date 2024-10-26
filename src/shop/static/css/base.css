@@ -66,4 +66,62 @@
     }
   }
 
-  
+  #reviews {
+    margin-top: 2rem; /* Space above the reviews section */
+    padding: 1.5rem; /* Padding inside the reviews section */
+    border: 1px solid #e1e1e1; /* Light gray border */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background color */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+#reviews h4 {
+    font-size: 1.5rem; /* Font size for the heading */
+    margin-bottom: 1rem; /* Space below the heading */
+    color: #333; /* Dark color for the heading */
+}
+
+.review {
+    margin-bottom: 1.5rem; /* Space between each review */
+    padding: 1rem; /* Padding inside each review */
+    border: 1px solid #e1e1e1; /* Light gray border for each review */
+    border-radius: 8px; /* Rounded corners for each review */
+    background-color: #fff; /* White background for each review */
+    transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.review:hover {
+    background-color: #f1f1f1; /* Change background on hover */
+}
+
+.review strong {
+    display: block; /* Make the username block level */
+    font-size: 1.1rem; /* Slightly larger font size for username */
+    color: #007bff; /* Bootstrap primary color for username */
+}
+
+.review p {
+    margin-top: 0.5rem; /* Space above the review content */
+    color: #555; /* Darker gray for the review content */
+}
+
+.review .stars {
+    color: #ffcc00; /* Gold color for stars */
+}
+
+#reviews p {
+    font-style: italic; /* Italic style for 'No reviews yet' message */
+    color: #888; /* Gray color for no reviews message */
+}
+.red-review {
+  border: 2px solid red;
+  background-color: #ffe6e6; /* Light red background */
+  padding: 10px;
+  margin: 5px 0;
+}
+.green-review {
+  border: 2px solid green;
+  background-color: #e6ffe6; /* Light green background */
+  padding: 10px;
+  margin: 5px 0;
+}

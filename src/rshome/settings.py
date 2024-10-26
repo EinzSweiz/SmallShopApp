@@ -28,12 +28,15 @@ INSTALLED_APPS = [
     "django_celery_results",
     "django_htmx",
     'sorl.thumbnail',
+    'rest_framework',
+    'djoser',
+    'drf_yasg',
     #my apps
     'shop',
     'cart',
     'account',
     'payment',
-    'reccomend',
+    'recommend',
 ]
 
 MIDDLEWARE = [

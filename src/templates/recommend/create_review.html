@@ -1,0 +1,23 @@
+<div id="review-form">
+    <h3>Write a Review</h3>
+    <form hx-post="{% url 'create_review' product.id %}" hx-target="#review" hx-swap="beforeend">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="review-content" class="form-label">Your Review</label>
+            <textarea id="review-content" name="content" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="review-rating" class="form-label">Rating</label>
+            <select id="review-rating" name="rating" class="form-select" required>
+                <option value="" disabled selected>Select a rating</option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+    </form>
+</div>
+

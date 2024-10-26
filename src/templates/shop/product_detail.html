@@ -14,7 +14,7 @@
 
             <div class="col-md-5 col-lg-5 order-md-first bg-light">
             
-                <img class="img-fluid mx-auto d-block" alt="Responsive image" src="{{product.image.url}}"> <!-- Product image -->
+                <img class="img-fluid mx-auto d-block" alt="Responsive image" src="{{ product.full_image_url }}"> <!-- Product image -->
             
             </div>
 
@@ -36,14 +36,27 @@
 
                     <div class="col border-bottom">
 
-                        <div class="row p-3">
-
-                            <div class="col-6"> Price </div>
-
-                            <div class="col-6 text-end"><span class="h4 fw-bold">$ {{product.price}}</span></div>
-
+                        <div class="row">
+                            <div class="col-6 text-start">
+                                <strong>Price</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                {% if product.discount %}
+                                    <span class="text-danger fw-bold text-decoration-line-through">
+                                        ${{ product.price }}
+                                    </span>
+                                    <span class="badge bg-info ms-2">Discount</span>
+                                    <span class="h4 fw-bold ms-2 text-success">
+                                        ${{ product.get_discount_price }}
+                                    </span>
+                                {% else %}
+                                    <span class="h4 fw-bold">
+                                        ${{ product.price }}
+                                    </span>
+                                {% endif %}
+                            </div>
                         </div>
-
+                        
                     </div>
 
                     <div class="col">
@@ -95,7 +108,24 @@
     </main>
 
     <br>
-
+    <div id="review-form">
+        <h3>Write a Review</h3>
+        <button 
+            hx-get="{% url 'create_review' product.id %}" 
+            hx-target="#review" 
+            hx-swap="innerHTML" 
+            onClick="document.getElementById('review-form').style.display='none';"
+        >
+            Add Review
+        </button>
+    </div>
+    
+    <div id="review">
+        <!-- This is where the review form will be injected -->
+    </div>
+    
+    
+    {% include 'snippets/review_snippet.html' with reviews=reviews %}
 </div>
 <script>
     $(document).on('click', '#add-button', function(e) {

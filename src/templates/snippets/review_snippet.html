@@ -1,0 +1,111 @@
+{% load range_filters %}
+
+<div id="reviews">
+    <h4>Reviews</h4>
+    {% with green_reviews=0 red_reviews=0 %}
+        {% for review in reviews %}
+            {% if review.rating > 3 %}
+                {% with green_reviews=green_reviews|add:1 %}
+                {% endwith %}
+            {% elif review.rating <= 2 %}
+                {% with red_reviews=red_reviews|add:1 %}
+                {% endwith %}
+            {% endif %}
+        {% empty %}
+            <p>No reviews yet.</p>
+        {% endfor %}
+
+        {% comment %} Display reviews after counting {% endcomment %}
+        {% for review in reviews %}
+            <div class="d-flex flex-row bd-highlight mb-3 justify-content-between review" id="review-{{ review.id }}">
+                <div>
+                    <strong>Date:</strong> {{ review.created_at|date:"Y-m-d" }}<br><br>
+                    <strong>Username:</strong>{{ review.created_by.username}} <br>
+                    <strong>Rating:</strong>
+                    <p class="stars">
+                        {% for star in review.rating|star_range %}
+                            {% if star <= review.rating %}
+                                ★
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <strong>Comment:</strong><br>
+                    {{ review.content }}
+                </div>
+                {% comment %}
+                <div>
+                    {% if request.user.is_authenticated and request.user == review.created_by %}
+                    {% csrf_token %}
+                    <span class="edit-pen" hx-put="{% url 'shop:product-detail' product.slug %}">✏️</span>
+                    {% endif %}
+                </div>
+                {% endcomment %}
+            </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+
+<style>
+    .reviews-container {
+        width: 100%;
+        margin-top: 6rem;
+    }
+
+    .reviews-title {
+        font-size: 1.5rem;
+    }
+
+    .review-form {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: #f2f2f2;
+        border-radius: 1rem;
+    }
+
+    .review-form label {
+        font-weight: bold;
+    }
+
+    .review-form textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.25rem;
+    }
+
+    review-form select {
+        width: 50%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.25rem;
+    }
+
+    .review-form button {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        background-color: #45EDAD;
+        color: rgb(0, 0, 0);
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+    }
+
+    .review {
+        padding: 1rem;
+        background-color: #f2f2f2;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .review strong {
+        font-weight: bold;
+    }
+
+    .edit-pen {
+        color: blue;
+        cursor: pointer;
+    }
+</style>
