@@ -3,7 +3,7 @@ version: "3.3"
 volumes:
   postgres_data:
   static_data:
-  media_data:
+  media_data:  # This can be removed if not used
 
 services:
   db:
@@ -19,8 +19,8 @@ services:
     container_name: bigcorp-backend
     env_file: .env
     volumes:
-      - ./backend/static:/app/static  # Mount the local static directory
-      - ./backend/media:/app/media    # Mount the local media directory
+      - static_data:/app/static
+      - media_data:/app/media
     depends_on:
       - db
     ports:
@@ -47,7 +47,7 @@ services:
       - db
       - redis
     volumes:
-      - static_data:/app/static
+      - ./backend/static:/app/static  # Ensure static is also mounted in celery if needed
     restart: always
     command: celery -A rshome worker --loglevel=info --beat
 
@@ -55,7 +55,6 @@ services:
     image: nginx:latest
     container_name: bigcorp-nginx
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - static_data:/app/static
       - media_data:/app/media
     ports:
