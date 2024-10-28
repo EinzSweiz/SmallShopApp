@@ -76,12 +76,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rshome.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USERNAME'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT', default=5432),
     }
 }
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -176,7 +188,10 @@ STRIPE_PUBLISH_KEY = config('STRIPE_PUBLISH_KEY', cast=str, default=None)
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', cast=str, default=None)
 STRIPE_API_VERSION = config('STRIPE_API_VERSION')
 STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', cast=str, default=None)
+SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_AGE = 60 * 60 * 2
 
 #Yookassa
