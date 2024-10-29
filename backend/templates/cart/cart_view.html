@@ -136,8 +136,10 @@
 
 <script>
 
-  $(document).on('click', '.delete-button', function(e){
+  $(document).on('click', '.delete-button', function(e) {
     e.preventDefault();
+    console.log('Delete button clicked');
+    location.reload();
 
     $.ajax({
         type: 'POST',
@@ -147,22 +149,25 @@
             csrfmiddlewaretoken: '{{ csrf_token }}',
             action: 'post'
         },
-        success: function(response){
+        success: function(response) {
+            console.log('Response from server:', response);
             document.getElementById('lblCartCount').textContent = response.qty;
             document.getElementById('total').textContent = response.total;
-            location.reload()
+            location.reload();
         },
-        error: function(error, status){
-            console.log(error);
+        error: function(error, status) {
+            console.error('Error occurred:', error); // Log any error that occurs
         }
     });
 });
+
 
 $(document).on('click', '.update-button', function(e){
   e.preventDefault();
 
   var product_id = $(this).data('index');
   var product_qty = $('#select' + product_id + ' option:selected').text();
+  location.reload();
 
   $.ajax({
       type: 'POST',

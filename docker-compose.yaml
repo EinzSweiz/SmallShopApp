@@ -60,3 +60,16 @@ services:
     ports:
       - 80:80
     restart: always
+
+  flower:
+    image: mher/flower:latest  # Correct image
+    container_name: bigcorp-flower
+    ports:
+      - 5555:5555
+    depends_on:
+      - redis
+      - celery
+      - backend
+      - nginx
+    restart: always
+    command: flower -A rshome --broker=redis://redis:6379/0

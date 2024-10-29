@@ -51,7 +51,7 @@ def cart_delete_view(request):
         cart.remove(product_id=product_id)
         cart_qty = cart.__len__()
         total_price = cart.get_total_price()
-        response = JsonResponse({'qty':cart_qty, 'total':total_price})
+        response = JsonResponse({'qty':cart_qty, 'total':str(total_price)})
         return response
  
 
